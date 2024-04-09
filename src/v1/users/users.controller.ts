@@ -2,12 +2,14 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query, HttpException
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import {LoginUserDto} from './dto/login-user.dto'
+import { error } from 'console';
 
 @Controller('v1/users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
+  @Post('/signup')
   create(@Body() createUserDto: CreateUserDto) {
     try{
       return this.usersService.create(createUserDto);
@@ -15,8 +17,15 @@ export class UsersController {
     catch (error) {
       throw new HttpException(error.message, HttpStatus.CONFLICT);
     }
+  }
 
-    
+  @Post('/signin')
+  login(@Body() loginUserDto: LoginUserDto) {
+    try{
+      return this.usersService.userLogin(loginUserDto)
+    }catch(error){
+      throw new HttpException(error.message, HttpStatus.UNAUTHORIZED)
+    }
   }
 
   @Get('/all')

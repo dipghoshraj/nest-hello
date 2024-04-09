@@ -16,11 +16,11 @@ export class UsersService {
 
 
 
-  async findAll(page:number, limit: number) {
-    let dbUsers = await this.prisma.user.findMany({where: { status: false } })
+  async findAll(next:number, limit: number) {
+    let dbUsers = await this.prisma.user.findMany({where:{id:{gt: +next}}, take: +limit})
     return {
       users: dbUsers,
-      next: dbUsers.length > 0 ? dbUsers.pop().id : null
+      next: dbUsers.length > 0 ? dbUsers[dbUsers.length - 1].id : null
     };
   }
 

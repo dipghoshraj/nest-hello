@@ -7,6 +7,8 @@ import { PrismaModule } from './prisma/prisma.module';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthController } from './auth/auth.controller';
 import { AuthService } from './auth/auth.service';
+import { AuthGuard } from './guards/auth.guard';
+
 
 
 @Module({
@@ -14,10 +16,10 @@ import { AuthService } from './auth/auth.service';
     JwtModule.register({
       global: true,
       secret: "secret",
-      signOptions: { expiresIn: '60s' },
+      signOptions: { expiresIn: '3600s' },
     }),
   ],
   controllers: [AppController, UsersController, AuthController],
-  providers: [AppService, UsersService, AuthService],
+  providers: [AppService, UsersService, AuthService, AuthGuard],
 })
 export class AppModule {}

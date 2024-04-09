@@ -14,7 +14,4 @@ export class SignupUserDto{
 
     @ApiProperty()
     email: string;
-
-    @ApiProperty({ required: false, default: false })
-    status?: boolean = false;
 }

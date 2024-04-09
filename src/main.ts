@@ -12,6 +12,14 @@ async function bootstrap() {
     .setVersion('0.1')
     .addTag('Authentication')
     .addTag('Users')
+    .addBearerAuth({
+      description: `[just text field] Please enter token in following format: Bearer <JWT>`,
+      name: 'Authorization',
+      bearerFormat: 'Bearer', 
+      scheme: 'Bearer',
+      type: 'http',
+      in: 'Header'
+    }, 'access-token')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

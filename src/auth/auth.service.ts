@@ -15,11 +15,11 @@ export class AuthService {
     ){}
 
     async signupUser(signupdto: SignupUserDto){
-        const { username, email, mobile, password, status } = signupdto;
+        const { username, email, mobile, password } = signupdto;
         const hashedPassword = await bcrypt.hash(password, 10);
 
         let user =await this.prisma.user.create({
-            data: {username, email, mobile, status, password: hashedPassword},
+            data: {username, email, mobile, password: hashedPassword},
             select: { id: true, username: true, email: true, mobile: true, status: true}
           }).catch((error) => {
             console.error(error.meta);
@@ -42,5 +42,12 @@ export class AuthService {
             return { id: user.id, email: user.email, access_token: await this.jwtservice.signAsync(payload)};
         }
         throw new UnauthorizedException('User or password wrong')
+    }
+
+
+    async validateToken(token: string): Promise<boolean> {
+
+        let validation = this.jwtservice.verifyAsync(token);
+        return validation;
     }
 }

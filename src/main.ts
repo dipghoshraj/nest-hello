@@ -10,6 +10,8 @@ async function bootstrap() {
     .setTitle('Median')
     .setDescription('The Median API description')
     .setVersion('0.1')
+    .addTag('Authentication')
+    .addTag('Users')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

@@ -1,32 +1,16 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query, HttpException, HttpStatus } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import {LoginUserDto} from './dto/login-user.dto'
 import { error } from 'console';
+import { ApiTags } from '@nestjs/swagger';
 
+
+
+
+@ApiTags('Users')
 @Controller('v1/users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
-
-  @Post('/signup')
-  create(@Body() createUserDto: CreateUserDto) {
-    try{
-      return this.usersService.create(createUserDto);
-    }
-    catch (error) {
-      throw new HttpException(error.message, HttpStatus.CONFLICT);
-    }
-  }
-
-  @Post('/signin')
-  login(@Body() loginUserDto: LoginUserDto) {
-    try{
-      return this.usersService.userLogin(loginUserDto)
-    }catch(error){
-      throw new HttpException(error.message, HttpStatus.UNAUTHORIZED)
-    }
-  }
 
   @Get('/all')
   findAll(@Query('page') page: number, @Query('limit') limit: number) {

@@ -38,7 +38,7 @@ export class AuthService {
         let user = await this.prisma.user.findUnique({ where: { email } });
         console.log(user);
         if (user && await bcrypt.compare(password, user.password)) {
-            const payload = { sub: user.id, username: user.username };
+            const payload = { userId: user.id, userName: user.username };
             return { id: user.id, email: user.email, access_token: await this.jwtservice.signAsync(payload)};
         }
         throw new UnauthorizedException('User or password wrong')
@@ -47,7 +47,6 @@ export class AuthService {
 
     async validateToken(token: string): Promise<boolean> {
 
-        let validation = this.jwtservice.verifyAsync(token);
-        return validation;
+        return false;
     }
 }

@@ -35,7 +35,7 @@ export class AuthService {
     async signin(logindto: LoginUserDto){
 
         const {email, password} = logindto
-        let user = await this.prisma.user.findUnique({ where: { email } });
+        let user = await this.prisma.user.findUnique({ where: { email: email } });
         console.log(user);
         if (user && await bcrypt.compare(password, user.password)) {
             const payload = { userId: user.id, userName: user.username };

@@ -4,7 +4,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { error } from 'console';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/guards/auth.guard';
-
+import { ActiveInactiveDto} from './dto/active-inactive-user.dto'
 
 
 
@@ -15,14 +15,12 @@ export class UsersController {
 
 
 
-  @Get('profile')
-  @ApiBearerAuth('access-token') 
-  @UseGuards(AuthGuard)
+  @Get('profile') @ApiBearerAuth('access-token') @UseGuards(AuthGuard)
   findOne(@Req() req: any) {
     const userId = req.userId
     try{
       console.log(`page and limit ${userId}`);
-      return this.usersService.findOne(userId);
+      return this.usersService.getProfile(userId);
     }
     catch (error) {
       throw new HttpException(error.message, HttpStatus.CONFLICT);
@@ -31,11 +29,13 @@ export class UsersController {
 
   @Patch('update')
   update(@Req() req: any, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(2, updateUserDto);
+    return this.usersService.profileUpdate(2, updateUserDto);
   }
 
-  @Delete()
-  remove(@Req() req: any) {
-    return this.usersService.remove(2);
+  @Delete('delete')
+  remove(@Req() req: any, @Body() activedto: ActiveInactiveDto) {
+    return this.usersService.markActiveInactive(2, activedto);
   }
+
+
 }

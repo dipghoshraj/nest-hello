@@ -33,6 +33,7 @@ model User {
   mobile String @unique
   password String
   email String @unique
+  about String @db.VarChar(100)
   status Boolean @default(true)
   createdAt   DateTime @default(now())
   recipes Recipe[]

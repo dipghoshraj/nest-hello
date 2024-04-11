@@ -48,8 +48,8 @@ export class UsersService {
     // return `This action removes a #${id} user`;
     const { valuse } = statusDto
     const user = await this.prisma.user.update({where: {id: userId}, 
-      data: {status: valuse ? true : false} })
-      
+    data: {status: valuse ? true : false} })
     return user;
+
   }
 }

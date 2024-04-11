@@ -15,11 +15,10 @@ export class UsersService {
 
 
   async getProfile(userId: number) {
-
     if(!userId) return null;
-    
+
     const user = await this.prisma.user.findUnique({ where:{id: userId},
-      select: {id: true, username: true, email: true, mobile: true, status: true, recipes: true}})
+    select: {id: true, username: true, email: true, mobile: true, status: true, recipes: true}})
 
     return user;
   }
@@ -37,7 +36,6 @@ export class UsersService {
 
     const user = await this.prisma.user.update({
       where: {id: userId, status: true}, data });
-
     return user;
   }
 
